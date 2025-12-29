@@ -139,9 +139,13 @@ let newNum;
             automating = false
             point++
             newNum = document.createElement("input")
+            const newNumLabel = document.createElement("label")
+            newNumLabel.innerHTML = "Points Added: "
+            newNumLabel.for = "changeNum"
             newNum.type = "number"
             const num = newNum.value
             form1.appendChild(document.createElement("br"))
+            form1.appendChild(newNumLabel)
             form1.appendChild(newNum)
             
         }
@@ -150,9 +154,13 @@ let newNum;
             automating = false
             point++
             newNum = document.createElement("input")
+            const newNumLabel = document.createElement("label")
+            newNumLabel.innerHTML = "Points Removed: "
+            newNumLabel.for = "removeNum"
             newNum.type = "number"
             const num = newNum.value
             form1.appendChild(document.createElement("br"))
+            form1.appendChild(newNumLabel)
             form1.appendChild(newNum)
             
         }
