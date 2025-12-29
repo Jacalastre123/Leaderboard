@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+       
+
+       body {
+        background-color: azure;
+        font-family: Open Sans;
+       }
+
+       ol {
+        background-color: rgba(3, 51, 182, 0.665);
+        
+        
+       }
+
+       .square {
+        height: 50px;
+        width: 50px;
+        text-overflow: ellipsis;
+        overflow: clip;
+       }
+       li {
+        border-bottom: 1px solid black;
+        margin: 3px;
+        padding: 15px;
+        
+       }
+
+       
+
+       button {
+        background-color: white;
+        border: 0.8px solid black;
+        border-radius: 5px;
+        padding: 5px;
+       }
+
+
+    </style>
+</head>
+
+<body>
+    <h1>Leaderboard</h1>
+   <ol id="leaderboard">
+
+   </ol>
+   <button onclick="dial.showModal()">Add</button>
+   <dialog id="dial">
+    <h3>Add Place</h3>
+    <form>
+        <label for="name">Name</label>
+        <input type="text" id="name"><br>
+        <label for="score">Starting Score</label>
+        <input type="number" id="score">
+        
+    </form>
+    <button onclick="add(names.value, scores.value); dial.close(); ">Submit</button>
+   </dialog>
+   <button onclick="doSomething();">Add Function</button>
+   <button onclick="deletes();">Delete</button>
+   <div id="container">
+
+   </div>
+
+   <dialog id="dial2">
+    <h3>Function list</h3>
+    <form id="form1">
+        <input type="radio" id="changeNum">
+        <label for="changeNum">Add Amount</label>
+        <br>
+        <input type="radio" id="removeNum">
+        <label for="changeNum">Remove Amount</label>
+
+    
+    </form>
+    <button onclick="submit2()">Submit</button>
+   </dialog>
+    <script>
+            let listo = [
+                {name: "Person 1", score: 500},
+                {name: "Person 2", score: 650},
+                {name: "Person 3", score: 200},
+            ]
+
+            const temp = document.getElementById("temp")
+            const dial = document.getElementById("dial")
+            const dial2 = document.getElementById("dial2")
+            const names = document.getElementById("name")
+            const scores = document.getElementById("score")
+            const container = document.getElementById("container")
+            const leaderboard = document.getElementById("leaderboard")
+            const form1 = document.getElementById("form1")
+            const automate = document.getElementById("automate")
+
+            const changeNum = document.getElementById("changeNum")
+            const removeNum = document.getElementById("removeNum")
+
+            let automating = false
+            function update() {
+                leaderboard.innerHTML = ""
+            listo.sort((a,b) => b.score - a.score)
+
+            listo.forEach(listo => {
+                const li = document.createElement("li")
+                li.textContent = `${listo.name}, ${listo.score}`
+                leaderboard.appendChild(li)
+            })
+        }
+update()
+    
+
+function add(name,score) {
+    
+    
+    listo.push({name, score})
+    listo.sort((a,b) => b.score - a.score)
+    update()
+}
+function doSomething() {
+    dial2.showModal()
+    
+}
+
+let point = 0
+let newNum;
+
+    document.addEventListener("click", () => {
+        
+        if (changeNum.checked && point < 1) {
+            automating = false
+            point++
+            newNum = document.createElement("input")
+            newNum.type = "number"
+            const num = newNum.value
+            form1.appendChild(document.createElement("br"))
+            form1.appendChild(newNum)
+            
+        }
+
+        if (removeNum.checked && point < 1) {
+            automating = false
+            point++
+            newNum = document.createElement("input")
+            newNum.type = "number"
+            const num = newNum.value
+            form1.appendChild(document.createElement("br"))
+            form1.appendChild(newNum)
+            
+        }
+
+   
+      
+        
+    })
+      function submit2() {
+    const button = document.createElement("button")
+        button.className = "square"
+        if (removeNum.checked) {
+            button.innerHTML = "-" + newNum.value
+        }
+        if (changeNum.checked) {
+            button.innerHTML = "+" + newNum.value
+
+        }
+
+      
+
+        
+
+        
+        container.appendChild(button)
+        if (button.textContent.trim() === "" || button.textContent.trim() === "+" ||button.textContent.trim() === "-") {
+            button.remove()
+        }
+         dial2.close()
+
+         button.onclick = function() {
+            document.querySelectorAll("li").forEach(li => {
+                li.style.cursor = "url('Drawing.png'), pointer"
+                li.onclick = function() {
+                    console.log("Working")
+                    console.log(li.textContent)
+                    listo.forEach(listo => {
+                        if (`${listo.name}, ${listo.score}` == li.textContent) {
+                        
+                            
+                            if (button.textContent.slice(0,1) === "-") {
+                                listo.score -= parseInt(button.textContent.slice(1))
+                            }
+
+                            else {
+                                listo.score -= parseInt(button.textContent.slice(1))
+                            }
+                            update()
+                        }
+                    })
+                    li.style.cursor = "auto"
+                }
+            })
+         }
+
+         
+}
+
+function deletes() {
+    document.querySelectorAll("li").forEach(li => {
+                li.style.cursor = "url('Drawing.png'), pointer"
+                li.onclick = function() {
+                    
+                    
+                        const indexes = listo.findIndex(item => `${item.name}, ${item.score}` === li.textContent);
+                           if (indexes !== -1) {
+                            listo.splice(indexes, 1)
+                           }
+
+                           li.remove()
+                           update()
+
+                             li.style.cursor = "auto"
+                        }
+  
+                    })
+              
+            } 
+                    
+                
+                    
+                
+            
+
+
+    </script>
+</body>
+
+</html>
