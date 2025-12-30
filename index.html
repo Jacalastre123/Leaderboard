@@ -66,8 +66,7 @@
     <button onclick="add(names.value, scores.value); dial.close(); ">Submit</button>
    </dialog>
    <button onclick="doSomething();">Add Function</button>
-   <button onclick="deletes();">Delete</button>
-    <br>
+   <button onclick="deletes();">Delete Player</button>
    <div id="container">
 
    </div>
@@ -79,9 +78,10 @@
         <label for="changeNum">Add Amount</label>
         <br>
         <input type="radio" id="removeNum">
-        <label for="changeNum">Remove Amount</label>
-
-    
+        <label for="removeNum">Remove Amount</label>
+        <br>
+        <input type="radio" id="automate">
+        <label for="automate">Add Players</label>
     </form>
     <button onclick="submit2()">Submit</button>
    </dialog>
@@ -133,20 +133,20 @@ function doSomething() {
 
 let point = 0
 let newNum;
-
+let playerAsk;
+let nameAsk;
+let scoreAsk
     document.addEventListener("click", () => {
         
         if (changeNum.checked && point < 1) {
             automating = false
             point++
+            const label1 = document.createElement("label")
+            label1.innerHTML = "Increase By: "
             newNum = document.createElement("input")
-            const newNumLabel = document.createElement("label")
-            newNumLabel.innerHTML = "Points Added: "
-            newNumLabel.for = "changeNum"
             newNum.type = "number"
             const num = newNum.value
             form1.appendChild(document.createElement("br"))
-            form1.appendChild(newNumLabel)
             form1.appendChild(newNum)
             
         }
@@ -154,19 +154,53 @@ let newNum;
         if (removeNum.checked && point < 1) {
             automating = false
             point++
+            const label1 = document.createElement("label")
+            label1.innerHTML = "Decrease By: "
+            form1.appendChild(label1)
             newNum = document.createElement("input")
-            const newNumLabel = document.createElement("label")
-            newNumLabel.innerHTML = "Points Removed: "
-            newNumLabel.for = "removeNum"
             newNum.type = "number"
             const num = newNum.value
             form1.appendChild(document.createElement("br"))
-            form1.appendChild(newNumLabel)
             form1.appendChild(newNum)
             
         }
 
-   
+        if (automate.checked && point < 1) {
+            point++
+            automating = true
+            form1.appendChild(document.createElement("br"))
+            const label1 = document.createElement("label")
+
+            label1.for = "playerAsk"
+            label1.innerHTML = "Player Name: "
+            form1.appendChild(label1)
+            playerAsk = document.createElement("input")
+            playerAsk.id = "playerAsk"
+            playerAsk.type = "text"
+            form1.appendChild(playerAsk)
+
+form1.appendChild(document.createElement("br"))
+const label2 = document.createElement("label")
+            label2.innerHTML = "Starting Score: "
+            label1.for = "scoreAsk"
+            form1.appendChild(label2)
+            scoreAsk = document.createElement("input")
+            scoreAsk.type = "number"
+            scoreAsk.id = "scoreAsk"
+            form1.appendChild(scoreAsk)
+            form1.appendChild(document.createElement("br"))
+const label3 = document.createElement("label")
+            label3.innerHTML = "Button Name: "
+            form1.appendChild(label3)
+
+            nameAsk = document.createElement("input")
+            nameAsk.type = "text"
+            nameAsk.id = "nameAsk"
+            form1.appendChild(nameAsk)
+
+
+            
+        }
       
         
     })
@@ -181,15 +215,18 @@ let newNum;
 
         }
 
-      
-
-        
+        if (automate.checked) {
+            button.innerHTML = nameAsk.value
+            
+        }
 
         
         container.appendChild(button)
         if (button.textContent.trim() === "" || button.textContent.trim() === "+" ||button.textContent.trim() === "-") {
             button.remove()
         }
+
+
          dial2.close()
 
          button.onclick = function() {
@@ -206,8 +243,15 @@ let newNum;
                                 listo.score -= parseInt(button.textContent.slice(1))
                             }
 
-                            else {
+                            
+
+                            if (button.textContent.slice(0,1) === "+") {
                                 listo.score -= parseInt(button.textContent.slice(1))
+                            }
+
+                            else {
+                                add(playerAsk.value, scoreAsk.value)
+                                
                             }
                             update()
                         }
@@ -216,8 +260,6 @@ let newNum;
                 }
             })
          }
-
-         
 }
 
 function deletes() {
@@ -240,6 +282,8 @@ function deletes() {
                     })
               
             } 
+
+
                     
                 
                     
