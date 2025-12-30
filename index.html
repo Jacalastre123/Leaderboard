@@ -32,7 +32,8 @@
         border-bottom: 1px solid black;
         margin: 3px;
         padding: 15px;
-        
+        box-shadow: 2px 2px 5px black;
+        transition: all 1s;
        }
 
        
@@ -53,7 +54,7 @@
    <ol id="leaderboard">
 
    </ol>
-   <button onclick="dial.showModal()">Add</button>
+   <button onclick="dial.showModal()">Add Player</button>
    <dialog id="dial">
     <h3>Add Place</h3>
     <form>
@@ -67,6 +68,7 @@
    </dialog>
    <button onclick="doSomething();">Add Function</button>
    <button onclick="deletes();">Delete Player</button>
+   <button onclick="save();">Save functions</button>
    <div id="container">
 <h3>Custom Functions</h3>
    </div>
@@ -109,12 +111,19 @@
             function update() {
                 leaderboard.innerHTML = ""
             listo.sort((a,b) => b.score - a.score)
-
+ let lis = document.querySelectorAll("li")
             listo.forEach(listo => {
                 const li = document.createElement("li")
                 li.textContent = `${listo.name}, ${listo.score}`
                 leaderboard.appendChild(li)
+
+               lis = document.querySelectorAll("li")
+                lis[0].style.backgroundColor = "rgba(255, 226, 0, 0.69)" 
+                
+               
             })
+            lis[1].style.backgroundColor = "lightgrey" 
+            lis[2].style.backgroundColor = "rgba(131, 80, 2, 0.63)" 
         }
 update()
     
@@ -283,9 +292,6 @@ function deletes() {
               
             } 
 
-
-                    
-                
                     
                 
             
